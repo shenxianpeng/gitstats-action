@@ -1,0 +1,97 @@
+name: 'GitStats Action'
+description: 'Generate Git repository statistics and reports'
+author: 'Xianpeng Shen'
+branding:
+  icon: 'bar-chart-2'
+  color: 'blue'
+
+inputs:
+  path:
+    description: 'Path to the git repository'
+    required: false
+    default: '.'
+  output:
+    description: 'Output directory for the generated statistics report'
+    required: false
+    default: 'gitstats-report'
+  branch:
+    description: 'Git branch to analyze (default: current branch)'
+    required: false
+    default: ''
+  commit_begin:
+    description: 'First commit to include (default: first commit in repo)'
+    required: false
+    default: ''
+  commit_end:
+    description: 'Last commit to include (default: HEAD)'
+    required: false
+    default: ''
+  config_file:
+    description: 'Path to a gitstats config file'
+    required: false
+    default: ''
+
+outputs:
+  report_path:
+    description: 'Path to the generated report'
+    value: ${{ steps.gitstats.outputs.report_path }}
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Install GitStats
+      shell: bash
+      run: |
+        if ! command -v gitstats &>/dev/null; then
+          sudo apt-get update -qq && sudo apt-get install -y -qq gnuplot
+          pip install gitstats
+        fi
+
+    - name: Run GitStats
+      id: gitstats
+      shell: bash
+      env:
+        INPUT_PATH: ${{ inputs.path }}
+        INPUT_OUTPUT: ${{ inputs.output }}
+        INPUT_BRANCH: ${{ inputs.branch }}
+        INPUT_COMMIT_BEGIN: ${{ inputs.commit_begin }}
+        INPUT_COMMIT_END: ${{ inputs.commit_end }}
+        INPUT_CONFIG_FILE: ${{ inputs.config_file }}
+      run: |
+        set -e
+
+        REPO_PATH="${INPUT_PATH:-.}"
+        OUTPUT_DIR="${INPUT_OUTPUT:-gitstats-report}"
+        BRANCH="${INPUT_BRANCH:-}"
+        COMMIT_BEGIN="${INPUT_COMMIT_BEGIN:-}"
+        COMMIT_END="${INPUT_COMMIT_END:-}"
+        CONFIG_FILE="${INPUT_CONFIG_FILE:-}"
+
+        GT_OPTS=""
+
+        if [ -n "$BRANCH" ]; then
+          GT_OPTS="$GT_OPTS -b $BRANCH"
+        fi
+        if [ -n "$COMMIT_BEGIN" ]; then
+          GT_OPTS="$GT_OPTS -c commit_begin=$COMMIT_BEGIN"
+        fi
+        if [ -n "$COMMIT_END" ]; then
+          GT_OPTS="$GT_OPTS -c commit_end=$COMMIT_END"
+        fi
+        if [ -n "$CONFIG_FILE" ] && [ -f "$CONFIG_FILE" ]; then
+          GT_OPTS="$GT_OPTS -c project_name=$(head -1 "$CONFIG_FILE")"
+        fi
+
+        mkdir -p "$OUTPUT_DIR"
+
+        echo "Repository: $REPO_PATH"
+        echo "Output dir: $OUTPUT_DIR"
+        echo "Options: $GT_OPTS"
+
+        gitstats $GT_OPTS "$REPO_PATH" "$OUTPUT_DIR"
+
+        echo ""
+        echo "📊 GitStats report generated successfully!"
+        echo "::notice title=GitStats Report::Open $OUTPUT_DIR/index.html to view the report."
+
+        echo "report_path=$OUTPUT_DIR" >> "$GITHUB_OUTPUT"
