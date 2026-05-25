@@ -2,7 +2,9 @@
 
 [![GitHub Marketplace](https://img.shields.io/badge/GitHub_Marketplace-gitstats--action-blue.svg)](https://github.com/marketplace/actions/gitstats-action)
 
-A GitHub Action that generates comprehensive Git repository statistics reports using [GitStats](https://github.com/tomgi/gitstats).
+A GitHub Action that generates insightful visual reports from Git repositories using [GitStats](https://github.com/shenxianpeng/gitstats).
+
+Powered by GitStats v2 — modern terminal-inspired UI, interactive Chart.js charts, zero system dependencies.
 
 ## Quick Start
 
@@ -40,10 +42,15 @@ jobs:
 |-------|-------------|----------|---------|
 | `path` | Path to the git repository | No | `.` |
 | `output` | Output directory for the report | No | `gitstats-report` |
-| `branch` | Git branch to analyze | No | (current branch) |
-| `commit_begin` | First commit to include | No | (first commit) |
-| `commit_end` | Last commit to include | No | `HEAD` |
-| `config_file` | Path to a gitstats config file | No | |
+| `project_name` | Project name shown in the report | No | (repo dir name) |
+| `commit_begin` | Start of commit range (e.g. `10` for last 10 commits) | No | (all commits) |
+| `commit_end` | End of commit range | No | `HEAD` |
+| `start_date` | Starting date for commits (`YYYY-MM-DD`) | No | (no limit) |
+| `end_date` | Ending date for commits (`YYYY-MM-DD`) | No | (no limit) |
+| `config` | Additional config overrides (comma-separated `key=value`) | No | |
+| `ai_enabled` | Enable AI-powered summaries | No | `false` |
+| `ai_provider` | AI provider: `openai`, `claude`, `gemini`, `ollama` | No | |
+| `ai_model` | AI model (e.g. `gpt-4`, `claude-3-5-sonnet-20241022`) | No | |
 
 ## Outputs
 
@@ -61,25 +68,40 @@ jobs:
     output: report
 ```
 
-### Analyze a Specific Branch
+### Filter by Date Range
 
 ```yaml
 - uses: shenxianpeng/gitstats-action@v1
   with:
-    branch: develop
-    output: develop-stats
+    output: report
+    start_date: '2024-01-01'
+    end_date: '2024-12-31'
 ```
 
-### Custom Config File
+### Custom Config Overrides
 
 ```yaml
 - uses: shenxianpeng/gitstats-action@v1
   with:
-    config_file: .gitstats
-    output: custom-report
+    output: report
+    project_name: My Project
+    config: max_authors=15,exclude_exts=png,jpg,svg
 ```
 
-### Deploy Report to GitHub Pages
+### AI-Powered Report
+
+```yaml
+- uses: shenxianpeng/gitstats-action@v1
+  with:
+    output: report
+    ai_enabled: 'true'
+    ai_provider: openai
+    ai_model: gpt-4
+  env:
+    OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+```
+
+### Deploy to GitHub Pages
 
 ```yaml
 name: Deploy GitStats to Pages
@@ -109,29 +131,26 @@ jobs:
           output: gitstats-report
 
       - uses: actions/configure-pages@v4
-
       - uses: actions/upload-pages-artifact@v3
         with:
           path: gitstats-report
-
       - uses: actions/deploy-pages@v4
         id: deployment
 ```
 
-## What's Included in the Report
+## What's Included
 
-The generated report includes:
-
-- **General statistics**: total files, lines of code, commits, authors
-- **Activity timeline**: commits by hour/day/month/year
-- **Authors breakdown**: commits per author, lines added/removed
-- **File statistics**: lines of code per file, file types distribution
-- **Tags analysis**: version tags and their statistics
+- **General**: total files, lines, commits, authors, age
+- **Activity**: commits by hour of day, day of week, month of year, year
+- **Authors**: list of authors (commits, first/last commit date, age), author of month/year
+- **Files**: file count by date, extensions, file churn
+- **Lines**: line of code by date
+- **Tags**: tags by date and author
+- **AI Insights** (optional): natural language summaries powered by OpenAI / Claude / Gemini
 
 ## How It Works
 
-This is a **composite action** — it runs directly on the runner without Docker overhead.
-On first use, it installs the [gitstats](https://pypi.org/project/gitstats/) Python package.
+Composite action — runs directly on the runner, no Docker overhead. On first use it installs [gitstats](https://pypi.org/project/gitstats/) via pip.
 
 ## Requirements
 
