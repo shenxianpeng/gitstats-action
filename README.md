@@ -131,7 +131,7 @@ The generated report includes:
 ## How It Works
 
 This is a **composite action** — it runs directly on the runner without Docker overhead.
-On first use, it installs [gnuplot](http://www.gnuplot.info/) and the [gitstats](https://pypi.org/project/gitstats/) Python package.
+On first use, it installs the [gitstats](https://pypi.org/project/gitstats/) Python package.
 
 ## Requirements
 
