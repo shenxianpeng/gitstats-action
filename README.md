@@ -1,5 +1,6 @@
 # GitStats Action
 
+[![Test](https://github.com/shenxianpeng/gitstats-action/actions/workflows/test.yml/badge.svg)](https://github.com/shenxianpeng/gitstats-action/actions/workflows/test.yml)
 [![GitHub Marketplace](https://img.shields.io/badge/GitHub_Marketplace-gitstats--action-blue.svg)](https://github.com/marketplace/actions/gitstats-action)
 
 A GitHub Action that generates insightful visual reports from Git repositories using [GitStats](https://github.com/shenxianpeng/gitstats).
@@ -50,7 +51,7 @@ jobs:
 | `config` | Additional config overrides (comma-separated `key=value`) | No | |
 | `ai_enabled` | Enable AI-powered summaries | No | `false` |
 | `ai_provider` | AI provider: `openai`, `claude`, `gemini`, `ollama` | No | |
-| `ai_model` | AI model (e.g. `gpt-4`, `claude-3-5-sonnet-20241022`) | No | |
+| `ai_model` | AI model (e.g. `gpt-4o`, `claude-sonnet-4-20250514`) | No | |
 
 ## Outputs
 
@@ -96,7 +97,7 @@ jobs:
     output: report
     ai_enabled: 'true'
     ai_provider: openai
-    ai_model: gpt-4
+    ai_model: gpt-4o
   env:
     OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
 ```
