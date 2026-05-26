@@ -48,7 +48,7 @@ jobs:
 | `commit_end` | End of commit range | No | `HEAD` |
 | `start_date` | Starting date for commits (`YYYY-MM-DD`) | No | (no limit) |
 | `end_date` | Ending date for commits (`YYYY-MM-DD`) | No | (no limit) |
-| `config` | Additional config overrides (comma-separated `key=value`) | No | |
+| `config` | Additional config overrides (pipe-separated `key=value`) | No | |
 | `ai_enabled` | Enable AI-powered summaries | No | `false` |
 | `ai_provider` | AI provider: `openai`, `claude`, `gemini`, `ollama` | No | |
 | `ai_model` | AI model (e.g. `gpt-4o`, `claude-sonnet-4-20250514`) | No | |
@@ -86,7 +86,7 @@ jobs:
   with:
     output: report
     project_name: My Project
-    config: max_authors=15,exclude_exts=png,jpg,svg
+    config: max_authors=15|exclude_exts=png,jpg,svg
 ```
 
 ### AI-Powered Report

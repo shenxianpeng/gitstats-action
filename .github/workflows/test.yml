@@ -49,7 +49,7 @@ jobs:
           output: dogfood-report
           project_name: GitStats Action Dogfood
           commit_begin: '10'
-          config: max_authors=5,exclude_exts=png,jpg,gif,svg
+          config: max_authors=5|exclude_exts=png,jpg,gif,svg
 
       - name: Verify Dogfood Output
         run: |

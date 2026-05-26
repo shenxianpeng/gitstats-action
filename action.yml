@@ -35,7 +35,7 @@ inputs:
     required: false
     default: ''
   config:
-    description: 'Additional gitstats config overrides, e.g. "max_authors=10,exclude_exts=png,jpg"'
+    description: 'Additional gitstats config overrides (pipe-separated key=value), e.g. "max_authors=10|exclude_exts=png,jpg"'
     required: false
     default: ''
   ai_enabled:
@@ -47,7 +47,7 @@ inputs:
     required: false
     default: ''
   ai_model:
-    description: 'AI model (e.g., gpt-4, claude-3-5-sonnet-20241022)'
+    description: 'AI model (e.g., gpt-4o, claude-sonnet-4-20250514)'
     required: false
     default: ''
 
@@ -106,9 +106,9 @@ runs:
           GT_OPTS="$GT_OPTS -c project_name=${INPUT_PROJECT_NAME}"
         fi
 
-        # Additional config overrides (comma-separated key=value pairs)
+        # Additional config overrides (pipe-separated key=value pairs)
         if [ -n "${INPUT_CONFIG}" ]; then
-          IFS=',' read -ra PAIRS <<< "${INPUT_CONFIG}"
+          IFS='|' read -ra PAIRS <<< "${INPUT_CONFIG}"
           for pair in "${PAIRS[@]}"; do
             pair=$(echo "$pair" | xargs)  # trim whitespace
             [ -n "$pair" ] && GT_OPTS="$GT_OPTS -c $pair"
