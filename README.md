@@ -21,7 +21,7 @@ jobs:
   gitstats:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           fetch-depth: 0  # Fetch all history for accurate stats
 
@@ -31,7 +31,7 @@ jobs:
           output: gitstats-report
 
       - name: Upload Report as Artifact
-        uses: actions/upload-pages-artifact@v3
+        uses: actions/upload-pages-artifact@v5
         with:
           path: gitstats-report
 ```
@@ -122,7 +122,7 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           fetch-depth: 0
 
@@ -130,11 +130,11 @@ jobs:
         with:
           output: gitstats-report
 
-      - uses: actions/configure-pages@v4
-      - uses: actions/upload-pages-artifact@v3
+      - uses: actions/configure-pages@v6
+      - uses: actions/upload-pages-artifact@v5
         with:
           path: gitstats-report
-      - uses: actions/deploy-pages@v4
+      - uses: actions/deploy-pages@v5
         id: deployment
 ```
 
@@ -148,15 +148,11 @@ jobs:
 - **Tags**: tags by date and author
 - **AI Insights** (optional): natural language summaries powered by OpenAI / Claude / Gemini
 
-## How It Works
-
-Composite action — runs directly on the runner, no Docker overhead. On first use it installs [gitstats](https://pypi.org/project/gitstats/) via pip.
-
 ## Requirements
 
-- `actions/checkout@v4` with `fetch-depth: 0` **must** be run before this action to fetch full git history
-- Runner: `ubuntu-latest`
+- `actions/checkout` with `fetch-depth: 0` **must** be run before this action to fetch full git history.
+- Supported runners: `ubuntu-latest`, `windows-latest`, `macos-latest`.
 
 ## License
 
-MIT © Xianpeng Shen
+MIT
