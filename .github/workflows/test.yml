@@ -33,7 +33,10 @@ jobs:
           name: smoke-report
           path: gitstats-report/
 
-  # Dogfooding — exercise every meaningful input
+  # Dogfooding — exercise inputs that smoke doesn't cover
+  # NOTE: commit_begin and commit_end are not tested here because
+  # GitHub PR workflows use a synthetic merge ref where git revision
+  # ranges may not resolve reliably.
   dogfood:
     runs-on: ubuntu-latest
     steps:
@@ -48,7 +51,6 @@ jobs:
           path: .
           output: dogfood-report
           project_name: GitStats Action Dogfood
-          commit_begin: '3'
           config: max_authors=5|exclude_exts=png,jpg,gif,svg
 
       - name: Verify Dogfood Output
@@ -62,12 +64,8 @@ jobs:
 
           # project_name should appear in the report
           grep -q "GitStats Action Dogfood" dogfood-report/index.html \
-            && echo "✅ dogfood: project_name appears in report" \
+            && echo "✅ dogfood: project_name injected into report" \
             || { echo "❌ dogfood: project_name missing"; exit 1; }
-
-          # Only last 10 commits
-          echo "Total commits in repo: $(git rev-list --count HEAD)"
-          echo "Dogfood report generated with commit_begin=10"
 
       - name: Upload Dogfood Artifact
         uses: actions/upload-artifact@v7
