@@ -87,23 +87,23 @@ runs:
         REPO_PATH="${INPUT_PATH:-.}"
         OUTPUT_DIR="${INPUT_OUTPUT:-gitstats-report}"
 
-        # Build config overrides
-        GT_OPTS=""
+        # Build config overrides as a bash array to protect values with spaces
+        GT_OPTS=()
 
         if [ -n "${INPUT_COMMIT_BEGIN}" ]; then
-          GT_OPTS="$GT_OPTS -c commit_begin=${INPUT_COMMIT_BEGIN}"
+          GT_OPTS+=(-c "commit_begin=${INPUT_COMMIT_BEGIN}")
         fi
         if [ -n "${INPUT_COMMIT_END}" ]; then
-          GT_OPTS="$GT_OPTS -c commit_end=${INPUT_COMMIT_END}"
+          GT_OPTS+=(-c "commit_end=${INPUT_COMMIT_END}")
         fi
         if [ -n "${INPUT_START_DATE}" ]; then
-          GT_OPTS="$GT_OPTS -c start_date=${INPUT_START_DATE}"
+          GT_OPTS+=(-c "start_date=${INPUT_START_DATE}")
         fi
         if [ -n "${INPUT_END_DATE}" ]; then
-          GT_OPTS="$GT_OPTS -c end_date=${INPUT_END_DATE}"
+          GT_OPTS+=(-c "end_date=${INPUT_END_DATE}")
         fi
         if [ -n "${INPUT_PROJECT_NAME}" ]; then
-          GT_OPTS="$GT_OPTS -c project_name=${INPUT_PROJECT_NAME}"
+          GT_OPTS+=(-c "project_name=${INPUT_PROJECT_NAME}")
         fi
 
         # Additional config overrides (pipe-separated key=value pairs)
@@ -111,26 +111,26 @@ runs:
           IFS='|' read -ra PAIRS <<< "${INPUT_CONFIG}"
           for pair in "${PAIRS[@]}"; do
             pair=$(echo "$pair" | xargs)  # trim whitespace
-            [ -n "$pair" ] && GT_OPTS="$GT_OPTS -c $pair"
+            [ -n "$pair" ] && GT_OPTS+=(-c "$pair")
           done
         fi
 
         # AI options
         if [ "${INPUT_AI_ENABLED}" = "true" ]; then
-          GT_OPTS="$GT_OPTS --ai"
+          GT_OPTS+=(--ai)
         fi
         if [ -n "${INPUT_AI_PROVIDER}" ]; then
-          GT_OPTS="$GT_OPTS --ai-provider ${INPUT_AI_PROVIDER}"
+          GT_OPTS+=(--ai-provider "${INPUT_AI_PROVIDER}")
         fi
         if [ -n "${INPUT_AI_MODEL}" ]; then
-          GT_OPTS="$GT_OPTS --ai-model ${INPUT_AI_MODEL}"
+          GT_OPTS+=(--ai-model "${INPUT_AI_MODEL}")
         fi
 
         echo "Repository: $REPO_PATH"
         echo "Output dir: $OUTPUT_DIR"
-        echo "Options: $GT_OPTS"
+        echo "Options: ${GT_OPTS[*]}"
 
-        gitstats $GT_OPTS "$REPO_PATH" "$OUTPUT_DIR"
+        gitstats "${GT_OPTS[@]}" "$REPO_PATH" "$OUTPUT_DIR"
 
         echo ""
         echo "📊 GitStats report generated successfully!"
