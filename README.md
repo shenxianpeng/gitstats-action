@@ -1,16 +1,13 @@
-# GitStats Action
+# gitstats Action
 
-[![Test](https://github.com/shenxianpeng/gitstats-action/actions/workflows/test.yml/badge.svg)](https://github.com/shenxianpeng/gitstats-action/actions/workflows/test.yml)
-[![GitHub Marketplace](https://img.shields.io/badge/GitHub_Marketplace-gitstats--action-blue.svg)](https://github.com/marketplace/actions/gitstats-action)
+[![Test](https://github.com/shenxianpeng/gitstats-action/actions/workflows/test.yml/badge.svg)](https://github.com/shenxianpeng/gitstats-action/actions/workflows/test.yml) [![GitHub Marketplace](https://img.shields.io/badge/GitHub_Marketplace-gitstats--action-blue.svg)](https://github.com/marketplace/actions/gitstats-action)
 
-A GitHub Action that generates insightful visual reports from Git repositories using [GitStats](https://github.com/shenxianpeng/gitstats).
-
-Powered by GitStats v2 — modern terminal-inspired UI, interactive Chart.js charts, zero system dependencies.
+A GitHub Action that generates insightful visual reports from Git repositories using [gitstats](https://github.com/shenxianpeng/gitstats).
 
 ## Quick Start
 
 ```yaml
-name: Generate GitStats Report
+name: Generate gitstats Report
 
 on:
   push:
@@ -26,7 +23,7 @@ jobs:
         with:
           fetch-depth: 0  # Fetch all history for accurate stats
 
-      - name: Generate GitStats Report
+      - name: Generate gitstats Report
         uses: shenxianpeng/gitstats-action@v1
         with:
           output: gitstats-report
@@ -105,7 +102,7 @@ jobs:
 ### Deploy to GitHub Pages
 
 ```yaml
-name: Deploy GitStats to Pages
+name: Deploy gitstats to Pages
 
 on:
   push:
