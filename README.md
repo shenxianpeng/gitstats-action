@@ -151,4 +151,4 @@ jobs:
 
 ## License
 
-MIT
+MIT — see [LICENSE](./LICENSE).
