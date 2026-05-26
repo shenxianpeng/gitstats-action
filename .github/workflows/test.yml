@@ -8,10 +8,11 @@ on:
   workflow_dispatch:
 
 jobs:
-  test:
+  # Basic smoke test — default inputs
+  smoke:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           fetch-depth: 0
 
@@ -22,13 +23,79 @@ jobs:
 
       - name: Verify Report Generated
         run: |
-          echo "Checking generated report..."
-          ls -la gitstats-report/
-          test -f gitstats-report/index.html && echo "✅ index.html found"
-          test -f gitstats-report/index.html || (echo "❌ index.html missing" && exit 1)
+          test -f gitstats-report/index.html && echo "✅ smoke: index.html found"
+          test -f gitstats-report/activity.html && echo "✅ smoke: activity.html found"
+          test -f gitstats-report/authors.html && echo "✅ smoke: authors.html found"
 
-      - name: Upload Report Artifact
-        uses: actions/upload-artifact@v4
+      - name: Upload Smoke Artifact
+        uses: actions/upload-artifact@v7
         with:
-          name: gitstats-report
+          name: smoke-report
+          path: gitstats-report/
+
+  # Dogfooding — exercise inputs that smoke doesn't cover
+  # NOTE: commit_begin and commit_end are not tested here because
+  # GitHub PR workflows use a synthetic merge ref where git revision
+  # ranges may not resolve reliably.
+  dogfood:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - name: Dogfood GitStats Action
+        uses: ./
+        id: dogfood
+        with:
+          path: .
+          output: dogfood-report
+          project_name: GitStats Action Dogfood
+          config: max_authors=5|exclude_exts=png,jpg,gif,svg
+
+      - name: Verify Dogfood Output
+        run: |
+          echo "Report path output: ${{ steps.dogfood.outputs.report_path }}"
+          test "${{ steps.dogfood.outputs.report_path }}" = "dogfood-report" \
+            && echo "✅ dogfood: report_path output correct"
+
+          test -f dogfood-report/index.html && echo "✅ dogfood: index.html found"
+          test -f dogfood-report/authors.html && echo "✅ dogfood: authors.html found"
+
+          # project_name should appear in the report
+          grep -q "GitStats Action Dogfood" dogfood-report/index.html \
+            && echo "✅ dogfood: project_name injected into report" \
+            || { echo "❌ dogfood: project_name missing"; exit 1; }
+
+      - name: Upload Dogfood Artifact
+        uses: actions/upload-artifact@v7
+        with:
+          name: dogfood-report
+          path: dogfood-report/
+
+  # Cross-platform: windows + macos
+  cross-platform:
+    strategy:
+      matrix:
+        os: [windows-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - name: Run GitStats Action (${{ matrix.os }})
+        uses: ./
+        with:
+          output: gitstats-report
+
+      - name: Verify Report Generated
+        shell: bash
+        run: |
+          test -f gitstats-report/index.html && echo "✅ ${{ matrix.os }}: index.html found"
+
+      - name: Upload ${{ matrix.os }} Artifact
+        uses: actions/upload-artifact@v7
+        with:
+          name: report-${{ matrix.os }}
           path: gitstats-report/

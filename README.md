@@ -1,5 +1,6 @@
 # GitStats Action
 
+[![Test](https://github.com/shenxianpeng/gitstats-action/actions/workflows/test.yml/badge.svg)](https://github.com/shenxianpeng/gitstats-action/actions/workflows/test.yml)
 [![GitHub Marketplace](https://img.shields.io/badge/GitHub_Marketplace-gitstats--action-blue.svg)](https://github.com/marketplace/actions/gitstats-action)
 
 A GitHub Action that generates insightful visual reports from Git repositories using [GitStats](https://github.com/shenxianpeng/gitstats).
@@ -21,7 +22,7 @@ jobs:
   gitstats:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           fetch-depth: 0  # Fetch all history for accurate stats
 
@@ -31,7 +32,7 @@ jobs:
           output: gitstats-report
 
       - name: Upload Report as Artifact
-        uses: actions/upload-pages-artifact@v3
+        uses: actions/upload-pages-artifact@v5
         with:
           path: gitstats-report
 ```
@@ -47,10 +48,10 @@ jobs:
 | `commit_end` | End of commit range | No | `HEAD` |
 | `start_date` | Starting date for commits (`YYYY-MM-DD`) | No | (no limit) |
 | `end_date` | Ending date for commits (`YYYY-MM-DD`) | No | (no limit) |
-| `config` | Additional config overrides (comma-separated `key=value`) | No | |
+| `config` | Additional config overrides (pipe-separated `key=value`) | No | |
 | `ai_enabled` | Enable AI-powered summaries | No | `false` |
 | `ai_provider` | AI provider: `openai`, `claude`, `gemini`, `ollama` | No | |
-| `ai_model` | AI model (e.g. `gpt-4`, `claude-3-5-sonnet-20241022`) | No | |
+| `ai_model` | AI model (e.g. `gpt-4o`, `claude-sonnet-4-20250514`) | No | |
 
 ## Outputs
 
@@ -85,7 +86,7 @@ jobs:
   with:
     output: report
     project_name: My Project
-    config: max_authors=15,exclude_exts=png,jpg,svg
+    config: max_authors=15|exclude_exts=png,jpg,svg
 ```
 
 ### AI-Powered Report
@@ -96,7 +97,7 @@ jobs:
     output: report
     ai_enabled: 'true'
     ai_provider: openai
-    ai_model: gpt-4
+    ai_model: gpt-4o
   env:
     OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
 ```
@@ -122,7 +123,7 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           fetch-depth: 0
 
@@ -130,11 +131,11 @@ jobs:
         with:
           output: gitstats-report
 
-      - uses: actions/configure-pages@v4
-      - uses: actions/upload-pages-artifact@v3
+      - uses: actions/configure-pages@v6
+      - uses: actions/upload-pages-artifact@v5
         with:
           path: gitstats-report
-      - uses: actions/deploy-pages@v4
+      - uses: actions/deploy-pages@v5
         id: deployment
 ```
 
@@ -148,15 +149,11 @@ jobs:
 - **Tags**: tags by date and author
 - **AI Insights** (optional): natural language summaries powered by OpenAI / Claude / Gemini
 
-## How It Works
-
-Composite action — runs directly on the runner, no Docker overhead. On first use it installs [gitstats](https://pypi.org/project/gitstats/) via pip.
-
 ## Requirements
 
-- `actions/checkout@v4` with `fetch-depth: 0` **must** be run before this action to fetch full git history
-- Runner: `ubuntu-latest`
+- `actions/checkout` with `fetch-depth: 0` **must** be run before this action to fetch full git history.
+- Supported runners: `ubuntu-latest`, `windows-latest`, `macos-latest`.
 
 ## License
 
-MIT © Xianpeng Shen
+MIT
