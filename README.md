@@ -1,4 +1,4 @@
-# gitstats action
+# GitStats Action
 
 [![Test](https://github.com/shenxianpeng/gitstats-action/actions/workflows/test.yml/badge.svg)](https://github.com/shenxianpeng/gitstats-action/actions/workflows/test.yml) [![GitHub Marketplace](https://img.shields.io/badge/GitHub_Marketplace-gitstats--action-blue.svg)](https://github.com/marketplace/actions/gitstats-action)
 
@@ -7,7 +7,7 @@ A GitHub Action that generates insightful visual reports from Git repositories u
 ## Quick Start
 
 ```yaml
-name: generate gitstats report
+name: Generate gitstats report
 
 on:
   push:
@@ -23,7 +23,7 @@ jobs:
         with:
           fetch-depth: 0  # Fetch all history for accurate stats
 
-      - name: generate gitstats report
+      - name: Generate gitstats report
         uses: shenxianpeng/gitstats-action@v1
         with:
           output: gitstats-report
@@ -102,7 +102,7 @@ jobs:
 ### Deploy to GitHub Pages
 
 ```yaml
-name: deploy gitstats to pages
+name: Deploy gitstats to pages
 
 on:
   push:
