@@ -149,11 +149,6 @@ jobs:
 - **Tags**: tags by date and author
 - **AI Insights** (optional): natural language summaries powered by OpenAI / Claude / Gemini
 
-## Requirements
-
-- `actions/checkout` with `fetch-depth: 0` **must** be run before this action to fetch full git history.
-- Supported runners: `ubuntu-latest`, `windows-latest`, `macos-latest`.
-
 ## License
 
 MIT
