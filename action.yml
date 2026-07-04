@@ -50,11 +50,22 @@ inputs:
     description: 'AI model (e.g., gpt-4o, claude-sonnet-4-20250514)'
     required: false
     default: ''
+  deploy-to-pages:
+    description: 'Automatically deploy the report to GitHub Pages'
+    required: false
+    default: 'false'
+  deploy-branch:
+    description: 'Branch to deploy to (only used when deploy-to-pages is true)'
+    required: false
+    default: 'gh-pages'
 
 outputs:
   report_path:
     description: 'Path to the generated report'
     value: ${{ steps.gitstats.outputs.report_path }}
+  pages_url:
+    description: 'URL of the deployed GitHub Pages site (only set when deploy-to-pages is true)'
+    value: ${{ steps.deploy.outputs.pages_url }}
 
 runs:
   using: 'composite'
@@ -137,3 +148,31 @@ runs:
         echo "::notice title=GitStats Report::Open $OUTPUT_DIR/index.html to view the report."
 
         echo "report_path=$OUTPUT_DIR" >> "$GITHUB_OUTPUT"
+
+    - name: Deploy to GitHub Pages
+      if: ${{ inputs.deploy-to-pages == 'true' }}
+      id: deploy
+      shell: bash
+      env:
+        REPORT_PATH: ${{ steps.gitstats.outputs.report_path }}
+        DEPLOY_BRANCH: ${{ inputs.deploy-branch }}
+      run: |
+        set -e
+        cd "${REPORT_PATH}"
+
+        echo "🚀 Deploying to branch '${DEPLOY_BRANCH}'..."
+
+        git init
+        git config user.name "github-actions[bot]"
+        git config user.email "github-actions[bot]@users.noreply.github.com"
+        git add .
+        git commit -m "Deploy gitstats report [skip ci]"
+        git push --force \
+          "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" \
+          "HEAD:${DEPLOY_BRANCH}"
+
+        REPO_NAME="${GITHUB_REPOSITORY#*/}"
+        PAGES_URL="https://${GITHUB_REPOSITORY_OWNER}.github.io/${REPO_NAME}"
+        echo "✅ Report deployed to ${DEPLOY_BRANCH}"
+        echo "🌐 Pages URL: ${PAGES_URL}"
+        echo "pages_url=${PAGES_URL}" >> "${GITHUB_OUTPUT}"

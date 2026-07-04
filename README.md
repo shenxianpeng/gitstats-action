@@ -6,14 +6,17 @@ A GitHub Action that generates insightful visual reports from Git repositories u
 
 ## Quick Start
 
+### One-liner: Generate + Deploy to GitHub Pages
+
 ```yaml
-name: Generate gitstats report
+name: GitStats Report
 
 on:
   push:
     branches: [main]
-  schedule:
-    - cron: '0 0 * * 0'  # Every Sunday at midnight
+
+permissions:
+  contents: write
 
 jobs:
   gitstats:
@@ -21,18 +24,15 @@ jobs:
     steps:
       - uses: actions/checkout@v6
         with:
-          fetch-depth: 0  # Fetch all history for accurate stats
-
-      - name: Generate gitstats report
-        uses: shenxianpeng/gitstats-action@v1
+          fetch-depth: 0
+      - uses: shenxianpeng/gitstats-action@v1
         with:
-          output: gitstats-report
-
-      - name: Upload Report as Artifact
-        uses: actions/upload-pages-artifact@v5
-        with:
-          path: gitstats-report
+          deploy-to-pages: true
 ```
+
+That's it. One `uses` line, and your report is live on GitHub Pages.
+
+> 💡 Make sure **GitHub Pages** is enabled in your repo settings (Settings → Pages → Source: "Deploy from a branch" → Branch: `gh-pages`).
 
 ## Inputs
 
@@ -49,16 +49,19 @@ jobs:
 | `ai_enabled` | Enable AI-powered summaries | No | `false` |
 | `ai_provider` | AI provider: `openai`, `claude`, `gemini`, `ollama` | No | |
 | `ai_model` | AI model (e.g. `gpt-4o`, `claude-sonnet-4-20250514`) | No | |
+| `deploy-to-pages` | Automatically deploy the report to GitHub Pages | No | `false` |
+| `deploy-branch` | Branch to deploy to (only used when `deploy-to-pages` is `true`) | No | `gh-pages` |
 
 ## Outputs
 
 | Output | Description |
 |--------|-------------|
 | `report_path` | Path to the generated report directory |
+| `pages_url` | URL of the deployed GitHub Pages site (only set when `deploy-to-pages` is `true`) |
 
 ## Examples
 
-### Basic Usage
+### Just generate (no deployment)
 
 ```yaml
 - uses: shenxianpeng/gitstats-action@v1
@@ -99,7 +102,9 @@ jobs:
     OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
 ```
 
-### Deploy to GitHub Pages
+### Manual Deploy (advanced)
+
+If you need more control over the deployment (e.g., custom environment, deployment URL output), use the official Pages actions:
 
 ```yaml
 name: Deploy gitstats to pages
