@@ -4,6 +4,10 @@
 
 A GitHub Action that generates insightful visual reports from Git repositories using [gitstats](https://github.com/shenxianpeng/gitstats).
 
+> [!TIP]
+> Pin to a specific version for stability: `shenxianpeng/gitstats-action@v0.1.1`.
+> Set up an [annotated tag](https://git-scm.com/book/en/v2/Git-Basics-Tagging) `v1` pointing to your latest release so users can use `@v1` for automatic minor updates.
+
 ## Quick Start
 
 ### One-liner: Generate + Deploy to GitHub Pages
@@ -25,7 +29,7 @@ jobs:
       - uses: actions/checkout@v6
         with:
           fetch-depth: 0
-      - uses: shenxianpeng/gitstats-action@v1
+      - uses: shenxianpeng/gitstats-action@v0.1.1
         with:
           deploy-to-pages: true
 ```
@@ -42,7 +46,7 @@ That's it. One `uses` line, and your report is live on GitHub Pages.
 | `output` | Output directory for the report | No | `gitstats-report` |
 | `project_name` | Project name shown in the report | No | (repo dir name) |
 | `commit_begin` | Start of commit range (e.g. `10` for last 10 commits) | No | (all commits) |
-| `commit_end` | End of commit range | No | `HEAD` |
+| `commit_end` | End of commit range (defaults to `HEAD` in gitstats when not set) | No | (all commits until HEAD) |
 | `start_date` | Starting date for commits (`YYYY-MM-DD`) | No | (no limit) |
 | `end_date` | Ending date for commits (`YYYY-MM-DD`) | No | (no limit) |
 | `config` | Additional config overrides (pipe-separated `key=value`) | No | |
@@ -64,7 +68,7 @@ That's it. One `uses` line, and your report is live on GitHub Pages.
 ### Just generate (no deployment)
 
 ```yaml
-- uses: shenxianpeng/gitstats-action@v1
+- uses: shenxianpeng/gitstats-action@v0.1.1
   with:
     output: report
 ```
@@ -72,7 +76,7 @@ That's it. One `uses` line, and your report is live on GitHub Pages.
 ### Filter by Date Range
 
 ```yaml
-- uses: shenxianpeng/gitstats-action@v1
+- uses: shenxianpeng/gitstats-action@v0.1.1
   with:
     output: report
     start_date: '2024-01-01'
@@ -82,7 +86,7 @@ That's it. One `uses` line, and your report is live on GitHub Pages.
 ### Custom Config Overrides
 
 ```yaml
-- uses: shenxianpeng/gitstats-action@v1
+- uses: shenxianpeng/gitstats-action@v0.1.1
   with:
     output: report
     project_name: My Project
@@ -92,7 +96,7 @@ That's it. One `uses` line, and your report is live on GitHub Pages.
 ### AI-Powered Report
 
 ```yaml
-- uses: shenxianpeng/gitstats-action@v1
+- uses: shenxianpeng/gitstats-action@v0.1.1
   with:
     output: report
     ai_enabled: 'true'
@@ -100,6 +104,16 @@ That's it. One `uses` line, and your report is live on GitHub Pages.
     ai_model: gpt-4o
   env:
     OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+```
+
+### Custom Deploy Branch
+
+```yaml
+- uses: shenxianpeng/gitstats-action@v0.1.1
+  with:
+    output: report
+    deploy-to-pages: true
+    deploy-branch: my-pages-branch
 ```
 
 ### Manual Deploy (advanced)
@@ -129,7 +143,7 @@ jobs:
         with:
           fetch-depth: 0
 
-      - uses: shenxianpeng/gitstats-action@v1
+      - uses: shenxianpeng/gitstats-action@v0.1.1
         with:
           output: gitstats-report
 
@@ -149,7 +163,7 @@ jobs:
 - **Files**: file count by date, extensions, file churn
 - **Lines**: line of code by date
 - **Tags**: tags by date and author
-- **AI Insights** (optional): natural language summaries powered by OpenAI / Claude / Gemini
+- **AI Insights** (optional): natural language summaries powered by OpenAI / Claude / Gemini / Ollama
 
 ## License
 
