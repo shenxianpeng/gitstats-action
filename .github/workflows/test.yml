@@ -12,7 +12,7 @@ jobs:
   smoke:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
         with:
           fetch-depth: 0
 
@@ -28,7 +28,7 @@ jobs:
           test -f gitstats-report/authors.html && echo "✅ smoke: authors.html found"
 
       - name: Upload Smoke Artifact
-        uses: actions/upload-artifact@v7
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: smoke-report
           path: gitstats-report/
@@ -37,7 +37,7 @@ jobs:
   dogfood:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
         with:
           fetch-depth: 0
 
@@ -64,7 +64,7 @@ jobs:
             || { echo "❌ dogfood: project_name missing"; exit 1; }
 
       - name: Upload Dogfood Artifact
-        uses: actions/upload-artifact@v7
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: dogfood-report
           path: dogfood-report/
@@ -76,7 +76,7 @@ jobs:
         os: [windows-latest, macos-latest]
     runs-on: ${{ matrix.os }}
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
         with:
           fetch-depth: 0
 
@@ -91,7 +91,7 @@ jobs:
           test -f gitstats-report/index.html && echo "✅ ${{ matrix.os }}: index.html found"
 
       - name: Upload ${{ matrix.os }} Artifact
-        uses: actions/upload-artifact@v7
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: report-${{ matrix.os }}
           path: gitstats-report/
