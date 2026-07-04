@@ -4,6 +4,10 @@
 
 A GitHub Action that generates insightful visual reports from Git repositories using [gitstats](https://github.com/shenxianpeng/gitstats).
 
+> [!TIP]
+> Pin to a specific version for stability: `shenxianpeng/gitstats-action@v0.1.1`.
+> Set up an [annotated tag](https://git-scm.com/book/en/v2/Git-Basics-Tagging) `v1` pointing to your latest release so users can use `@v1` for automatic minor updates.
+
 ## Quick Start
 
 ### One-liner: Generate + Deploy to GitHub Pages
@@ -25,7 +29,7 @@ jobs:
       - uses: actions/checkout@v6
         with:
           fetch-depth: 0
-      - uses: shenxianpeng/gitstats-action@v1
+      - uses: shenxianpeng/gitstats-action@v0.1.1
         with:
           deploy-to-pages: true
 ```
@@ -40,15 +44,10 @@ That's it. One `uses` line, and your report is live on GitHub Pages.
 |-------|-------------|----------|---------|
 | `path` | Path to the git repository | No | `.` |
 | `output` | Output directory for the report | No | `gitstats-report` |
-| `project_name` | Project name shown in the report | No | (repo dir name) |
-| `commit_begin` | Start of commit range (e.g. `10` for last 10 commits) | No | (all commits) |
-| `commit_end` | End of commit range | No | `HEAD` |
-| `start_date` | Starting date for commits (`YYYY-MM-DD`) | No | (no limit) |
-| `end_date` | Ending date for commits (`YYYY-MM-DD`) | No | (no limit) |
-| `config` | Additional config overrides (pipe-separated `key=value`) | No | |
-| `ai_enabled` | Enable AI-powered summaries | No | `false` |
-| `ai_provider` | AI provider: `openai`, `claude`, `gemini`, `ollama` | No | |
-| `ai_model` | AI model (e.g. `gpt-4o`, `claude-sonnet-4-20250514`) | No | |
+| `config` | GitStats config overrides (pipe-separated `key=value`). All [gitstats options](https://github.com/shenxianpeng/gitstats#configuration) supported | No | |
+| `ai-enabled` | Enable AI-powered summaries | No | `false` |
+| `ai-provider` | AI provider: `openai`, `claude`, `gemini`, `ollama` | No | |
+| `ai-model` | AI model (e.g. `gpt-4o`, `claude-sonnet-4-20250514`) | No | |
 | `deploy-to-pages` | Automatically deploy the report to GitHub Pages | No | `false` |
 | `deploy-branch` | Branch to deploy to (only used when `deploy-to-pages` is `true`) | No | `gh-pages` |
 
@@ -64,7 +63,7 @@ That's it. One `uses` line, and your report is live on GitHub Pages.
 ### Just generate (no deployment)
 
 ```yaml
-- uses: shenxianpeng/gitstats-action@v1
+- uses: shenxianpeng/gitstats-action@v0.1.1
   with:
     output: report
 ```
@@ -72,34 +71,42 @@ That's it. One `uses` line, and your report is live on GitHub Pages.
 ### Filter by Date Range
 
 ```yaml
-- uses: shenxianpeng/gitstats-action@v1
+- uses: shenxianpeng/gitstats-action@v0.1.1
   with:
     output: report
-    start_date: '2024-01-01'
-    end_date: '2024-12-31'
+    config: start_date=2024-01-01|end_date=2024-12-31
 ```
 
 ### Custom Config Overrides
 
 ```yaml
-- uses: shenxianpeng/gitstats-action@v1
+- uses: shenxianpeng/gitstats-action@v0.1.1
   with:
     output: report
-    project_name: My Project
-    config: max_authors=15|exclude_exts=png,jpg,svg
+    config: project_name=My Project|max_authors=15|exclude_exts=png,jpg,svg
 ```
 
 ### AI-Powered Report
 
 ```yaml
-- uses: shenxianpeng/gitstats-action@v1
+- uses: shenxianpeng/gitstats-action@v0.1.1
   with:
     output: report
-    ai_enabled: 'true'
-    ai_provider: openai
-    ai_model: gpt-4o
+    ai-enabled: 'true'
+    ai-provider: openai
+    ai-model: gpt-4o
   env:
     OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+```
+
+### Custom Deploy Branch
+
+```yaml
+- uses: shenxianpeng/gitstats-action@v0.1.1
+  with:
+    output: report
+    deploy-to-pages: true
+    deploy-branch: my-pages-branch
 ```
 
 ### Manual Deploy (advanced)
@@ -129,7 +136,7 @@ jobs:
         with:
           fetch-depth: 0
 
-      - uses: shenxianpeng/gitstats-action@v1
+      - uses: shenxianpeng/gitstats-action@v0.1.1
         with:
           output: gitstats-report
 
@@ -141,6 +148,23 @@ jobs:
         id: deployment
 ```
 
+## Common Config Options
+
+Here are some commonly used gitstats configuration keys you can pass via the `config` input:
+
+| Key | Example | Description |
+|-----|---------|-------------|
+| `project_name` | `My Project` | Project name shown in the report |
+| `commit_begin` | `10` | Last N commits only |
+| `commit_end` | `abc123` | End commit hash |
+| `start_date` | `2024-01-01` | Starting date |
+| `end_date` | `2024-12-31` | Ending date |
+| `max_authors` | `20` | Max authors to display |
+| `exclude_exts` | `png,jpg,svg` | Exclude file extensions |
+| `linenos` | `true` | Show line numbers in code |
+
+See the [gitstats documentation](https://github.com/shenxianpeng/gitstats#configuration) for the full list.
+
 ## What's Included
 
 - **General**: total files, lines, commits, authors, age
@@ -149,7 +173,7 @@ jobs:
 - **Files**: file count by date, extensions, file churn
 - **Lines**: line of code by date
 - **Tags**: tags by date and author
-- **AI Insights** (optional): natural language summaries powered by OpenAI / Claude / Gemini
+- **AI Insights** (optional): natural language summaries powered by OpenAI / Claude / Gemini / Ollama
 
 ## License
 
