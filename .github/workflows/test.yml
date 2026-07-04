@@ -34,7 +34,7 @@ jobs:
           path: gitstats-report/
 
   # Dogfooding — exercise inputs that smoke doesn't cover
-  # NOTE: commit_begin and commit_end are not tested here because
+  # NOTE: commit-start and commit-end are not tested here because
   # GitHub PR workflows use a synthetic merge ref where git revision
   # ranges may not resolve reliably.
   dogfood:
@@ -50,7 +50,7 @@ jobs:
         with:
           path: .
           output: dogfood-report
-          project_name: GitStats Action Dogfood
+          project-name: GitStats Action Dogfood
           config: max_authors=5|exclude_exts=png,jpg,gif,svg
 
       - name: Verify Dogfood Output
@@ -62,10 +62,10 @@ jobs:
           test -f dogfood-report/index.html && echo "✅ dogfood: index.html found"
           test -f dogfood-report/authors.html && echo "✅ dogfood: authors.html found"
 
-          # project_name should appear in the report
+          # project-name should appear in the report
           grep -q "GitStats Action Dogfood" dogfood-report/index.html \
-            && echo "✅ dogfood: project_name injected into report" \
-            || { echo "❌ dogfood: project_name missing"; exit 1; }
+            && echo "✅ dogfood: project-name injected into report" \
+            || { echo "❌ dogfood: project-name missing"; exit 1; }
 
       - name: Upload Dogfood Artifact
         uses: actions/upload-artifact@v7

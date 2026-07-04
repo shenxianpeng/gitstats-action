@@ -44,15 +44,15 @@ That's it. One `uses` line, and your report is live on GitHub Pages.
 |-------|-------------|----------|---------|
 | `path` | Path to the git repository | No | `.` |
 | `output` | Output directory for the report | No | `gitstats-report` |
-| `project_name` | Project name shown in the report | No | (repo dir name) |
-| `commit_begin` | Start of commit range (e.g. `10` for last 10 commits) | No | (all commits) |
-| `commit_end` | End of commit range (defaults to `HEAD` in gitstats when not set) | No | (all commits until HEAD) |
-| `start_date` | Starting date for commits (`YYYY-MM-DD`) | No | (no limit) |
-| `end_date` | Ending date for commits (`YYYY-MM-DD`) | No | (no limit) |
+| `project-name` | Project name shown in the report | No | (repo dir name) |
+| `commit-start` | Start of commit range (e.g. `10` for last 10 commits) | No | (all commits) |
+| `commit-end` | End of commit range (defaults to `HEAD` in gitstats when not set) | No | (all commits until HEAD) |
+| `start-date` | Starting date for commits (`YYYY-MM-DD`) | No | (no limit) |
+| `end-date` | Ending date for commits (`YYYY-MM-DD`) | No | (no limit) |
 | `config` | Additional config overrides (pipe-separated `key=value`) | No | |
-| `ai_enabled` | Enable AI-powered summaries | No | `false` |
-| `ai_provider` | AI provider: `openai`, `claude`, `gemini`, `ollama` | No | |
-| `ai_model` | AI model (e.g. `gpt-4o`, `claude-sonnet-4-20250514`) | No | |
+| `ai-enabled` | Enable AI-powered summaries | No | `false` |
+| `ai-provider` | AI provider: `openai`, `claude`, `gemini`, `ollama` | No | |
+| `ai-model` | AI model (e.g. `gpt-4o`, `claude-sonnet-4-20250514`) | No | |
 | `deploy-to-pages` | Automatically deploy the report to GitHub Pages | No | `false` |
 | `deploy-branch` | Branch to deploy to (only used when `deploy-to-pages` is `true`) | No | `gh-pages` |
 
@@ -79,8 +79,8 @@ That's it. One `uses` line, and your report is live on GitHub Pages.
 - uses: shenxianpeng/gitstats-action@v0.1.1
   with:
     output: report
-    start_date: '2024-01-01'
-    end_date: '2024-12-31'
+    start-date: '2024-01-01'
+    end-date: '2024-12-31'
 ```
 
 ### Custom Config Overrides
@@ -89,7 +89,7 @@ That's it. One `uses` line, and your report is live on GitHub Pages.
 - uses: shenxianpeng/gitstats-action@v0.1.1
   with:
     output: report
-    project_name: My Project
+    project-name: My Project
     config: max_authors=15|exclude_exts=png,jpg,svg
 ```
 
@@ -99,9 +99,9 @@ That's it. One `uses` line, and your report is live on GitHub Pages.
 - uses: shenxianpeng/gitstats-action@v0.1.1
   with:
     output: report
-    ai_enabled: 'true'
-    ai_provider: openai
-    ai_model: gpt-4o
+    ai-enabled: 'true'
+    ai-provider: openai
+    ai-model: gpt-4o
   env:
     OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
 ```
