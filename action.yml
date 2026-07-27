@@ -14,28 +14,12 @@ inputs:
     description: 'Output directory for the generated statistics report'
     required: false
     default: 'gitstats-report'
-  commit-start:
-    description: 'Start of commit range (e.g. 10 for last 10 commits). Passed as -c commit_begin=...'
-    required: false
-    default: ''
-  commit-end:
-    description: 'End of commit range (default: HEAD). Passed as -c commit_end=...'
-    required: false
-    default: ''
-  start-date:
-    description: 'Starting date for commits (YYYY-MM-DD). Passed as -c start_date=...'
-    required: false
-    default: ''
-  end-date:
-    description: 'Ending date for commits (YYYY-MM-DD). Passed as -c end_date=...'
-    required: false
-    default: ''
-  project-name:
-    description: 'Project name to display (default: repo directory name). Passed as -c project_name=...'
-    required: false
-    default: ''
+
   config:
-    description: 'Additional gitstats config overrides (pipe-separated key=value), e.g. "max_authors=10|exclude_exts=png,jpg"'
+    description: >
+      GitStats config overrides (pipe-separated key=value pairs).
+      All gitstats options are supported, e.g.:
+      "project_name=My Project|max_authors=10|exclude_exts=png,jpg"
     required: false
     default: ''
   ai-enabled:
@@ -81,13 +65,7 @@ runs:
       id: gitstats
       shell: bash
       env:
-        INPUT_PATH: ${{ inputs.path }}
-        INPUT_OUTPUT: ${{ inputs.output }}
-        INPUT_COMMIT_START: ${{ inputs.commit-start }}
-        INPUT_COMMIT_END: ${{ inputs.commit-end }}
-        INPUT_START_DATE: ${{ inputs.start-date }}
-        INPUT_END_DATE: ${{ inputs.end-date }}
-        INPUT_PROJECT_NAME: ${{ inputs.project-name }}
+
         INPUT_CONFIG: ${{ inputs.config }}
         INPUT_AI_ENABLED: ${{ inputs.ai-enabled }}
         INPUT_AI_PROVIDER: ${{ inputs.ai-provider }}
@@ -95,29 +73,13 @@ runs:
       run: |
         set -e
 
-        REPO_PATH="${INPUT_PATH:-.}"
-        OUTPUT_DIR="${INPUT_OUTPUT:-gitstats-report}"
+        REPO_PATH="${{ inputs.path }}"
+        OUTPUT_DIR="${{ inputs.output }}"
 
         # Build config overrides as a bash array to protect values with spaces
         GT_OPTS=()
 
-        if [ -n "${INPUT_COMMIT_START}" ]; then
-          GT_OPTS+=(-c "commit_begin=${INPUT_COMMIT_START}")
-        fi
-        if [ -n "${INPUT_COMMIT_END}" ]; then
-          GT_OPTS+=(-c "commit_end=${INPUT_COMMIT_END}")
-        fi
-        if [ -n "${INPUT_START_DATE}" ]; then
-          GT_OPTS+=(-c "start_date=${INPUT_START_DATE}")
-        fi
-        if [ -n "${INPUT_END_DATE}" ]; then
-          GT_OPTS+=(-c "end_date=${INPUT_END_DATE}")
-        fi
-        if [ -n "${INPUT_PROJECT_NAME}" ]; then
-          GT_OPTS+=(-c "project_name=${INPUT_PROJECT_NAME}")
-        fi
-
-        # Additional config overrides (pipe-separated key=value pairs)
+        # Parse pipe-separated config overrides
         if [ -n "${INPUT_CONFIG}" ]; then
           IFS='|' read -ra PAIRS <<< "${INPUT_CONFIG}"
           for pair in "${PAIRS[@]}"; do

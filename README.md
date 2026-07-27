@@ -44,12 +44,7 @@ That's it. One `uses` line, and your report is live on GitHub Pages.
 |-------|-------------|----------|---------|
 | `path` | Path to the git repository | No | `.` |
 | `output` | Output directory for the report | No | `gitstats-report` |
-| `project-name` | Project name shown in the report | No | (repo dir name) |
-| `commit-start` | Start of commit range (e.g. `10` for last 10 commits) | No | (all commits) |
-| `commit-end` | End of commit range (defaults to `HEAD` in gitstats when not set) | No | (all commits until HEAD) |
-| `start-date` | Starting date for commits (`YYYY-MM-DD`) | No | (no limit) |
-| `end-date` | Ending date for commits (`YYYY-MM-DD`) | No | (no limit) |
-| `config` | Additional config overrides (pipe-separated `key=value`) | No | |
+| `config` | GitStats config overrides (pipe-separated `key=value`). All [gitstats options](https://github.com/shenxianpeng/gitstats#configuration) supported | No | |
 | `ai-enabled` | Enable AI-powered summaries | No | `false` |
 | `ai-provider` | AI provider: `openai`, `claude`, `gemini`, `ollama` | No | |
 | `ai-model` | AI model (e.g. `gpt-4o`, `claude-sonnet-4-20250514`) | No | |
@@ -79,8 +74,7 @@ That's it. One `uses` line, and your report is live on GitHub Pages.
 - uses: shenxianpeng/gitstats-action@v0.1.1
   with:
     output: report
-    start-date: '2024-01-01'
-    end-date: '2024-12-31'
+    config: start_date=2024-01-01|end_date=2024-12-31
 ```
 
 ### Custom Config Overrides
@@ -89,8 +83,7 @@ That's it. One `uses` line, and your report is live on GitHub Pages.
 - uses: shenxianpeng/gitstats-action@v0.1.1
   with:
     output: report
-    project-name: My Project
-    config: max_authors=15|exclude_exts=png,jpg,svg
+    config: project_name=My Project|max_authors=15|exclude_exts=png,jpg,svg
 ```
 
 ### AI-Powered Report
@@ -154,6 +147,23 @@ jobs:
       - uses: actions/deploy-pages@v5
         id: deployment
 ```
+
+## Common Config Options
+
+Here are some commonly used gitstats configuration keys you can pass via the `config` input:
+
+| Key | Example | Description |
+|-----|---------|-------------|
+| `project_name` | `My Project` | Project name shown in the report |
+| `commit_begin` | `10` | Last N commits only |
+| `commit_end` | `abc123` | End commit hash |
+| `start_date` | `2024-01-01` | Starting date |
+| `end_date` | `2024-12-31` | Ending date |
+| `max_authors` | `20` | Max authors to display |
+| `exclude_exts` | `png,jpg,svg` | Exclude file extensions |
+| `linenos` | `true` | Show line numbers in code |
+
+See the [gitstats documentation](https://github.com/shenxianpeng/gitstats#configuration) for the full list.
 
 ## What's Included
 
