@@ -1,0 +1,26 @@
+action.yml
+  s_26d97c573c68a2::t_1a54423ad2c5e8 17,19-22,68
+  s_26d97c573c68a2::t_06a481c817d9f3 76-77,82
+.github/workflows/release-drafter.yml
+  s_26d97c573c68a2::t_0b9537d28a8de4 14
+.github/workflows/test.yml
+  s_26d97c573c68a2::t_058290904d556f 15,31,36,40,50,61,63-64,67,79,94
+README.md
+  s_26d97c573c68a2::t_179fb3bbdae841 47,77,86,151-167
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.16",
+  "base_commit_sha": "b7c4513096f9a83854099a842c71ef185be88a9e",
+  "prompts": {},
+  "sessions": {
+    "s_26d97c573c68a2": {
+      "agent_id": {
+        "tool": "pi",
+        "id": "019fa4c7-18a9-71af-b410-64b2ea72d084",
+        "model": "deepseek-v4-flash"
+      },
+      "human_author": "shenxianpeng <xianpeng.shen@gmail.com>"
+    }
+  }
+}
