@@ -1,0 +1,19 @@
+.github/workflows/release-major-tag.yml
+  s_9098da6665c7e9::t_788ae782e8f68e 1-25
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.24",
+  "base_commit_sha": "08bd13a0d6596cc254f71184d9ccb3e2b2c18d56",
+  "prompts": {},
+  "sessions": {
+    "s_9098da6665c7e9": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "57259bf0-56fb-415f-9eb9-64e0f6793b1a",
+        "model": "claude-fable-5"
+      },
+      "human_author": "shenxianpeng <xianpeng.shen@gmail.com>"
+    }
+  }
+}
