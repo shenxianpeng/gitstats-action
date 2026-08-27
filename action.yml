@@ -49,6 +49,12 @@ outputs:
   pages_url:
     description: 'URL of the deployed GitHub Pages site (only set when deploy-to-pages is true)'
     value: ${{ steps.deploy.outputs.pages_url }}
+  badge_url:
+    description: 'URL of the deployed badge.svg (only set when deploy-to-pages is true)'
+    value: ${{ steps.deploy.outputs.badge_url }}
+  badge_markdown:
+    description: 'Ready-to-copy README badge markdown linking to the report (only set when deploy-to-pages is true)'
+    value: ${{ steps.deploy.outputs.badge_markdown }}
 
 runs:
   using: 'composite'
@@ -133,6 +139,28 @@ runs:
 
         REPO_NAME="${GITHUB_REPOSITORY#*/}"
         PAGES_URL="https://${GITHUB_REPOSITORY_OWNER}.github.io/${REPO_NAME}"
+        BADGE_URL="${PAGES_URL}/badge.svg"
+        BADGE_MARKDOWN="[![GitStats](${BADGE_URL})](${PAGES_URL}/)"
         echo "✅ Report deployed to ${DEPLOY_BRANCH}"
         echo "🌐 Pages URL: ${PAGES_URL}"
         echo "pages_url=${PAGES_URL}" >> "${GITHUB_OUTPUT}"
+        echo "badge_url=${BADGE_URL}" >> "${GITHUB_OUTPUT}"
+        echo "badge_markdown=${BADGE_MARKDOWN}" >> "${GITHUB_OUTPUT}"
+
+        {
+          echo "## 📊 GitStats report deployed"
+          echo ""
+          echo "🌐 **Report:** ${PAGES_URL}/"
+          echo ""
+          echo "Share it — add this badge to your README:"
+          echo ""
+          echo '```markdown'
+          echo "${BADGE_MARKDOWN}"
+          echo '```'
+          echo ""
+          echo "Preview: ${BADGE_MARKDOWN}"
+          echo ""
+          echo "> The badge shows the repository's live commit count and updates automatically on every deploy."
+          echo ">"
+          echo "> Prefer a different metric? Swap \`badge.svg\` for \`badges/<metric>.svg\` — available metrics: \`commits\`, \`last-commit\`, \`authors\`, \`files\`, \`lines\`. Colors, label, and shape are configurable via the \`config\` input (e.g. \`config: badge_color=green|badge_style=flat-square\`)."
+        } >> "${GITHUB_STEP_SUMMARY}"

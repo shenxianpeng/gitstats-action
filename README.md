@@ -38,6 +38,37 @@ That's it. One `uses` line, and your report is live on GitHub Pages.
 
 > 💡 Make sure **GitHub Pages** is enabled in your repo settings (Settings → Pages → Source: "Deploy from a branch" → Branch: `gh-pages`).
 
+### Add a badge to your README
+
+Every report ships with a `badge.svg` deployed right next to it — a shields.io-style badge in the gitstats brand colors showing your repository's **live commit count**. It updates automatically on every deploy.
+
+Live example, served from the [gitstats demo report](https://shenxianpeng.github.io/gitstats/) (click one):
+
+[![GitStats report](https://shenxianpeng.github.io/gitstats/badge.svg)](https://shenxianpeng.github.io/gitstats/) [![GitStats last commit](https://shenxianpeng.github.io/gitstats/badges/last-commit.svg)](https://shenxianpeng.github.io/gitstats/)
+
+After the workflow runs, open the job summary: it contains ready-to-copy badge markdown for your repository. It looks like this:
+
+```markdown
+[![GitStats](https://<owner>.github.io/<repo>/badge.svg)](https://<owner>.github.io/<repo>/)
+```
+
+Anyone who sees the badge can click it to jump straight to your full GitStats report. The badge URL is also available programmatically via the `badge_url` and `badge_markdown` outputs.
+
+**Customizing the badge** — every deploy also publishes a `badges/` directory with one pre-rendered badge per metric, so a different metric is just a different URL: `badges/commits.svg`, `badges/last-commit.svg` (date of the latest commit, e.g. `Aug 2026`), `badges/authors.svg`, `badges/files.svg`, `badges/lines.svg`. Label, color, and shape are controlled through the `config` input:
+
+```yaml
+- uses: shenxianpeng/gitstats-action@v0.1.1
+  with:
+    deploy-to-pages: true
+    config: badge_metric=last-commit|badge_color=green|badge_style=flat-square
+```
+
+For full shields.io URL-parameter customization (any color, `style=for-the-badge`, logos), each metric is also published as `badges/<metric>.json` in the [shields endpoint schema](https://shields.io/badges/endpoint-badge):
+
+```markdown
+[![GitStats](https://img.shields.io/endpoint?url=https://<owner>.github.io/<repo>/badges/commits.json&style=for-the-badge)](https://<owner>.github.io/<repo>/)
+```
+
 ## Inputs
 
 | Input | Description | Required | Default |
@@ -57,6 +88,8 @@ That's it. One `uses` line, and your report is live on GitHub Pages.
 |--------|-------------|
 | `report_path` | Path to the generated report directory |
 | `pages_url` | URL of the deployed GitHub Pages site (only set when `deploy-to-pages` is `true`) |
+| `badge_url` | URL of the deployed `badge.svg` (only set when `deploy-to-pages` is `true`) |
+| `badge_markdown` | Ready-to-copy README badge markdown linking to the report (only set when `deploy-to-pages` is `true`) |
 
 ## Examples
 
@@ -173,6 +206,7 @@ See the [gitstats documentation](https://github.com/shenxianpeng/gitstats#config
 - **Files**: file count by date, extensions, file churn
 - **Lines**: line of code by date
 - **Tags**: tags by date and author
+- **Badge**: a shareable `badge.svg` with live commit count, linking readers to the report
 - **AI Insights** (optional): natural language summaries powered by OpenAI / Claude / Gemini / Ollama
 
 ## License
