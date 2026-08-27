@@ -5,7 +5,7 @@
 A GitHub Action that generates insightful visual reports from Git repositories using [gitstats](https://github.com/shenxianpeng/gitstats).
 
 > [!TIP]
-> Pin to a specific version for stability: `shenxianpeng/gitstats-action@v0.1.1`.
+> Pin to a specific version for stability: `shenxianpeng/gitstats-action@v1.0.0`.
 > Set up an [annotated tag](https://git-scm.com/book/en/v2/Git-Basics-Tagging) `v1` pointing to your latest release so users can use `@v1` for automatic minor updates.
 
 ## Quick Start
@@ -29,7 +29,7 @@ jobs:
       - uses: actions/checkout@v6
         with:
           fetch-depth: 0
-      - uses: shenxianpeng/gitstats-action@v0.1.1
+      - uses: shenxianpeng/gitstats-action@v1.0.0
         with:
           deploy-to-pages: true
 ```
@@ -57,7 +57,7 @@ Anyone who sees the badge can click it to jump straight to your full GitStats re
 **Customizing the badge** — every deploy also publishes a `badges/` directory with one pre-rendered badge per metric, so a different metric is just a different URL: `badges/commits.svg`, `badges/last-commit.svg` (date of the latest commit, e.g. `Aug 2026`), `badges/authors.svg`, `badges/files.svg`, `badges/lines.svg`. Label, color, and shape are controlled through the `config` input:
 
 ```yaml
-- uses: shenxianpeng/gitstats-action@v0.1.1
+- uses: shenxianpeng/gitstats-action@v1.0.0
   with:
     deploy-to-pages: true
     config: badge_metric=last-commit|badge_color=green|badge_style=flat-square
@@ -96,7 +96,7 @@ For full shields.io URL-parameter customization (any color, `style=for-the-badge
 ### Just generate (no deployment)
 
 ```yaml
-- uses: shenxianpeng/gitstats-action@v0.1.1
+- uses: shenxianpeng/gitstats-action@v1.0.0
   with:
     output: report
 ```
@@ -104,7 +104,7 @@ For full shields.io URL-parameter customization (any color, `style=for-the-badge
 ### Filter by Date Range
 
 ```yaml
-- uses: shenxianpeng/gitstats-action@v0.1.1
+- uses: shenxianpeng/gitstats-action@v1.0.0
   with:
     output: report
     config: start_date=2024-01-01|end_date=2024-12-31
@@ -113,7 +113,7 @@ For full shields.io URL-parameter customization (any color, `style=for-the-badge
 ### Custom Config Overrides
 
 ```yaml
-- uses: shenxianpeng/gitstats-action@v0.1.1
+- uses: shenxianpeng/gitstats-action@v1.0.0
   with:
     output: report
     config: project_name=My Project|max_authors=15|exclude_exts=png,jpg,svg
@@ -122,7 +122,7 @@ For full shields.io URL-parameter customization (any color, `style=for-the-badge
 ### AI-Powered Report
 
 ```yaml
-- uses: shenxianpeng/gitstats-action@v0.1.1
+- uses: shenxianpeng/gitstats-action@v1.0.0
   with:
     output: report
     ai-enabled: 'true'
@@ -135,7 +135,7 @@ For full shields.io URL-parameter customization (any color, `style=for-the-badge
 ### Custom Deploy Branch
 
 ```yaml
-- uses: shenxianpeng/gitstats-action@v0.1.1
+- uses: shenxianpeng/gitstats-action@v1.0.0
   with:
     output: report
     deploy-to-pages: true
@@ -169,7 +169,7 @@ jobs:
         with:
           fetch-depth: 0
 
-      - uses: shenxianpeng/gitstats-action@v0.1.1
+      - uses: shenxianpeng/gitstats-action@v1.0.0
         with:
           output: gitstats-report
 
