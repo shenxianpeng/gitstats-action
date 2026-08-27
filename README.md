@@ -38,6 +38,18 @@ That's it. One `uses` line, and your report is live on GitHub Pages.
 
 > 💡 Make sure **GitHub Pages** is enabled in your repo settings (Settings → Pages → Source: "Deploy from a branch" → Branch: `gh-pages`).
 
+### Add a badge to your README
+
+Every report ships with a `badge.svg` deployed right next to it — a shields.io-style badge in the gitstats brand colors showing your repository's **live commit count**. It updates automatically on every deploy.
+
+After the workflow runs, open the job summary: it contains ready-to-copy badge markdown for your repository. It looks like this:
+
+```markdown
+[![GitStats](https://<owner>.github.io/<repo>/badge.svg)](https://<owner>.github.io/<repo>/)
+```
+
+Anyone who sees the badge can click it to jump straight to your full GitStats report. The badge URL is also available programmatically via the `badge_url` and `badge_markdown` outputs.
+
 ## Inputs
 
 | Input | Description | Required | Default |
@@ -57,6 +69,8 @@ That's it. One `uses` line, and your report is live on GitHub Pages.
 |--------|-------------|
 | `report_path` | Path to the generated report directory |
 | `pages_url` | URL of the deployed GitHub Pages site (only set when `deploy-to-pages` is `true`) |
+| `badge_url` | URL of the deployed `badge.svg` (only set when `deploy-to-pages` is `true`) |
+| `badge_markdown` | Ready-to-copy README badge markdown linking to the report (only set when `deploy-to-pages` is `true`) |
 
 ## Examples
 
@@ -173,6 +187,7 @@ See the [gitstats documentation](https://github.com/shenxianpeng/gitstats#config
 - **Files**: file count by date, extensions, file churn
 - **Lines**: line of code by date
 - **Tags**: tags by date and author
+- **Badge**: a shareable `badge.svg` with live commit count, linking readers to the report
 - **AI Insights** (optional): natural language summaries powered by OpenAI / Claude / Gemini / Ollama
 
 ## License
