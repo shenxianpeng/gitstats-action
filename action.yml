@@ -161,4 +161,6 @@ runs:
           echo "Preview: ${BADGE_MARKDOWN}"
           echo ""
           echo "> The badge shows the repository's live commit count and updates automatically on every deploy."
+          echo ">"
+          echo "> Prefer a different metric? Swap \`badge.svg\` for \`badges/<metric>.svg\` — available metrics: \`commits\`, \`last-commit\`, \`authors\`, \`files\`, \`lines\`. Colors, label, and shape are configurable via the \`config\` input (e.g. \`config: badge_color=green|badge_style=flat-square\`)."
         } >> "${GITHUB_STEP_SUMMARY}"

@@ -50,6 +50,21 @@ After the workflow runs, open the job summary: it contains ready-to-copy badge m
 
 Anyone who sees the badge can click it to jump straight to your full GitStats report. The badge URL is also available programmatically via the `badge_url` and `badge_markdown` outputs.
 
+**Customizing the badge** — every deploy also publishes a `badges/` directory with one pre-rendered badge per metric, so a different metric is just a different URL: `badges/commits.svg`, `badges/last-commit.svg` (date of the latest commit, e.g. `Aug 2026`), `badges/authors.svg`, `badges/files.svg`, `badges/lines.svg`. Label, color, and shape are controlled through the `config` input:
+
+```yaml
+- uses: shenxianpeng/gitstats-action@v0.1.1
+  with:
+    deploy-to-pages: true
+    config: badge_metric=last-commit|badge_color=green|badge_style=flat-square
+```
+
+For full shields.io URL-parameter customization (any color, `style=for-the-badge`, logos), each metric is also published as `badges/<metric>.json` in the [shields endpoint schema](https://shields.io/badges/endpoint-badge):
+
+```markdown
+[![GitStats](https://img.shields.io/endpoint?url=https://<owner>.github.io/<repo>/badges/commits.json&style=for-the-badge)](https://<owner>.github.io/<repo>/)
+```
+
 ## Inputs
 
 | Input | Description | Required | Default |
