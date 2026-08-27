@@ -42,6 +42,10 @@ That's it. One `uses` line, and your report is live on GitHub Pages.
 
 Every report ships with a `badge.svg` deployed right next to it — a shields.io-style badge in the gitstats brand colors showing your repository's **live commit count**. It updates automatically on every deploy.
 
+Live example, served from the [gitstats demo report](https://shenxianpeng.github.io/gitstats/) (click one):
+
+[![GitStats report](https://shenxianpeng.github.io/gitstats/badge.svg)](https://shenxianpeng.github.io/gitstats/) [![GitStats last commit](https://shenxianpeng.github.io/gitstats/badges/last-commit.svg)](https://shenxianpeng.github.io/gitstats/)
+
 After the workflow runs, open the job summary: it contains ready-to-copy badge markdown for your repository. It looks like this:
 
 ```markdown
