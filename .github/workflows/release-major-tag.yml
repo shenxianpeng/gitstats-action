@@ -1,0 +1,25 @@
+name: Release Major Version Tag
+
+on:
+  release:
+    types: [released]
+  workflow_dispatch:
+    inputs:
+      TAG_NAME:
+        description: "Tag name that the major tag will point to (e.g. v1.0.0)"
+        required: true
+
+permissions:
+  contents: write
+
+env:
+  TAG_NAME: ${{ github.event.inputs.TAG_NAME || github.event.release.tag_name }}
+
+jobs:
+  update_tag:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Update the major tag to include ${{ env.TAG_NAME }}
+        uses: actions/publish-action@23f4c6f12633a2da8f44938b71fde9afec138fb4 # v0.4.0
+        with:
+          source-tag: ${{ env.TAG_NAME }}
