@@ -36,7 +36,8 @@ jobs:
 
 That's it. One `uses` line, and your report is live on GitHub Pages.
 
-> 💡 Make sure **GitHub Pages** is enabled in your repo settings (Settings → Pages → Source: "Deploy from a branch" → Branch: `gh-pages`).
+> [!IMPORTANT]
+> Make sure **GitHub Pages** is enabled in your repo settings (Settings → Pages → Source: "Deploy from a branch" → Branch: `gh-pages`).
 
 ### Add a badge to your README
 
