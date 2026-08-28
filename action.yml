@@ -41,6 +41,10 @@ inputs:
     description: 'Branch to deploy to (only used when deploy-to-pages is true)'
     required: false
     default: 'gh-pages'
+  github-token:
+    description: 'Token used to push the report to the deploy branch (only used when deploy-to-pages is true)'
+    required: false
+    default: ${{ github.token }}
 
 outputs:
   report_path:
@@ -122,6 +126,7 @@ runs:
       env:
         REPORT_PATH: ${{ steps.gitstats.outputs.report_path }}
         DEPLOY_BRANCH: ${{ inputs.deploy-branch }}
+        GITHUB_TOKEN: ${{ inputs.github-token }}
       run: |
         set -e
         cd "${REPORT_PATH}"

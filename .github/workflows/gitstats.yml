@@ -1,0 +1,31 @@
+# Dogfooding: generate this repository's own gitstats report with the
+# published action and deploy it to GitHub Pages. This exercises the real
+# released v1 tag (not the local checkout, which test.yml already covers)
+# and keeps the badge in our README live.
+name: GitStats Report
+
+on:
+  push:
+    branches: [main]
+  schedule:
+    - cron: '0 3 * * 0' # weekly refresh
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  gitstats:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        with:
+          fetch-depth: 0
+
+      - uses: shenxianpeng/gitstats-action@v1
+        with:
+          deploy-to-pages: true
+        env:
+          # Redundant once v1 carries the github-token input default,
+          # but keeps the deploy working with any v1.x.
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
