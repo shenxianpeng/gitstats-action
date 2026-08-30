@@ -1,0 +1,33 @@
+{
+  "schema_version": 1,
+  "generated_by": "gitstats 2.6.0",
+  "generated_at": "2026-08-30T08:59:39+00:00",
+  "name": "gitstats-action",
+  "report_path": "index.html",
+  "first_commit": "2026-05-25 20:55:54",
+  "last_commit": "2026-08-28 12:06:51",
+  "age_days": 95,
+  "active_days": 5,
+  "total_commits": 16,
+  "total_authors": 1,
+  "active_authors_12mo": 1,
+  "commits_last_12mo": 16,
+  "total_files": 8,
+  "total_lines": 593,
+  "lines_added": 781,
+  "lines_removed": 188,
+  "total_tags": 5,
+  "era": "birth",
+  "top_authors": [
+    {
+      "name": "Xianpeng Shen",
+      "commits": 16
+    }
+  ],
+  "author_commits": {
+    "Xianpeng Shen": 16
+  },
+  "commits_by_year": {
+    "2026": 16
+  }
+}
