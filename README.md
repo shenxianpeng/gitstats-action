@@ -1,6 +1,6 @@
 # GitStats Action
 
-[![Test](https://github.com/shenxianpeng/gitstats-action/actions/workflows/test.yml/badge.svg)](https://github.com/shenxianpeng/gitstats-action/actions/workflows/test.yml) [![GitHub Marketplace](https://img.shields.io/badge/GitHub_Marketplace-gitstats--action-blue.svg)](https://github.com/marketplace/actions/gitstats-action) [![GitStats](https://shenxianpeng.github.io/gitstats-action/badge.svg)](https://shenxianpeng.github.io/gitstats-action/)
+[![Test](https://github.com/shenxianpeng/gitstats-action/actions/workflows/test.yml/badge.svg)](https://github.com/shenxianpeng/gitstats-action/actions/workflows/test.yml) [![GitHub Marketplace](https://img.shields.io/badge/GitHub_Marketplace-gitstats--action-blue.svg)](https://github.com/marketplace/actions/gitstats-action) [![GitStats](https://shenxianpeng.dev/gitstats-action/badge.svg)](https://shenxianpeng.dev/gitstats-action/)
 
 A GitHub Action that generates insightful visual reports from Git repositories using [gitstats](https://github.com/shenxianpeng/gitstats).
 
@@ -43,9 +43,9 @@ That's it. One `uses` line, and your report is live on GitHub Pages.
 
 Every report ships with a `badge.svg` deployed right next to it — a shields.io-style badge in the gitstats brand colors showing your repository's **live commit count**. It updates automatically on every deploy.
 
-Live example — this repository eats its own dog food: the [gitstats.yml workflow](.github/workflows/gitstats.yml) runs this action on every push, and these badges are served from [our own deployed report](https://shenxianpeng.github.io/gitstats-action/) (click one):
+Live example — this repository eats its own dog food: the [gitstats.yml workflow](.github/workflows/gitstats.yml) runs this action on every push, and these badges are served from [our own deployed report](https://shenxianpeng.dev/gitstats-action/) (click one):
 
-[![GitStats report](https://shenxianpeng.github.io/gitstats-action/badge.svg)](https://shenxianpeng.github.io/gitstats-action/) [![GitStats last commit](https://shenxianpeng.github.io/gitstats-action/badges/last-commit.svg)](https://shenxianpeng.github.io/gitstats-action/)
+[![GitStats report](https://shenxianpeng.dev/gitstats-action/badge.svg)](https://shenxianpeng.dev/gitstats-action/) [![GitStats last commit](https://shenxianpeng.dev/gitstats-action/badges/last-commit.svg)](https://shenxianpeng.dev/gitstats-action/)
 
 After the workflow runs, open the job summary: it contains ready-to-copy badge markdown for your repository. It looks like this:
 
