@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="384" height="28" role="img" aria-label="gitstats: 17 commits, 1 author, 593 lines">
+  <title>gitstats: 17 commits, 1 author, 593 lines</title>
+  
+  <g><rect x="0" width="91" height="28" fill="#211e1e"/><rect x="91" width="108" height="28" fill="#4a7ab5"/><rect x="199" width="91" height="28" fill="#3b6aa3"/><rect x="290" width="94" height="28" fill="#2c5485"/></g>
+  
+  <g text-anchor="middle" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="10" font-weight="bold" text-rendering="geometricPrecision"><text x="45.5" y="17.6" fill="#fff" textLength="67.0">GITSTATS</text><text x="144.5" y="17.6" fill="#fff" textLength="83.0">17 COMMITS</text><text x="244.0" y="17.6" fill="#fff" textLength="66.0">1 AUTHOR</text><text x="336.5" y="17.6" fill="#fff" textLength="69.0">593 LINES</text></g>
+</svg>
