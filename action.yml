@@ -78,11 +78,13 @@ runs:
         INPUT_AI_ENABLED: ${{ inputs.ai-enabled }}
         INPUT_AI_PROVIDER: ${{ inputs.ai-provider }}
         INPUT_AI_MODEL: ${{ inputs.ai-model }}
+        INPUT_PATH: ${{ inputs.path }}
+        INPUT_OUTPUT: ${{ inputs.output }}
       run: |
         set -e
 
-        REPO_PATH="${{ inputs.path }}"
-        OUTPUT_DIR="${{ inputs.output }}"
+        REPO_PATH="${INPUT_PATH}"
+        OUTPUT_DIR="${INPUT_OUTPUT}"
 
         # Build config overrides as a bash array to protect values with spaces
         GT_OPTS=()
